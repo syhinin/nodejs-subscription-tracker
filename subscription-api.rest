@@ -1,0 +1,2 @@
+### get / 
+GET http://localhost:5500/
