@@ -3,6 +3,7 @@ import express from "express";
 import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import subscriptionRoutes from "./routes/subscriptions.router.js";
+import connectDatabase from "./database/mongodb.js";
 
 const app = express();
 app.use(express.json());
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+
+  await connectDatabase();
 });
