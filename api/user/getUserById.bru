@@ -1,0 +1,19 @@
+meta {
+  name: getUserById
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:5500/api/v1/users/{{userId}}
+  body: none
+  auth: bearer
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTBlNjM5OGQxZjRmNGYzZmFlNWZlNDgiLCJpYXQiOjE3NjI3MjM4MzAsImV4cCI6MTc2MjgxMDIzMH0.sHKfk8Qh5nhjOvHeV3KO6iLFTVUTmC0ePRJERmuxKU4
+}
