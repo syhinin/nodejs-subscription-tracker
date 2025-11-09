@@ -9,11 +9,11 @@ const authMiddleware = async (req, res, next) => {
     if (req?.headers?.authorization?.startsWith("Bearer ")) {
       token = req.headers.authorization.split(" ")[1];
     }
-    
+
     if (!token) {
       return res
         .status(401)
-        .json({ success: false, message: "No token provided" });
+        .json({ success: false, error: "No token provided" });
     }
 
     // Verify token and extract user info
@@ -22,15 +22,13 @@ const authMiddleware = async (req, res, next) => {
     const user = await User.findById(decoded.userId);
 
     if (!user) {
-      return res.status(401).json({ success: false, message: "Invalid token" });
+      return res.status(401).json({ success: false, error: "Invalid token" });
     }
 
     req.user = user; // Attach user to request object
     next();
   } catch (error) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Token verification failed", error });
+    return res.status(401).json(error);
   }
 };
 export default authMiddleware;

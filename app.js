@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.routes.js";
 import subscriptionRoutes from "./routes/subscriptions.router.js";
 import connectDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
+import arcjetMiddleware from "./middlewares/arcjet.middleware.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(arcjetMiddleware);
 app.use(errorMiddleware);
 
 // Mounting route handlers
