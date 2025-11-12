@@ -1,0 +1,25 @@
+meta {
+  name: updateSubscriptionById
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:5500/api/v1/subscriptions/6914d62b48e0d5d22f0089e0
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "name": "UPD Subscription name",
+    "price": 10,
+    "category": "Health",
+    "paymentMethod": "PayPal",
+    "startDate": "04.10.2025"
+  }
+}

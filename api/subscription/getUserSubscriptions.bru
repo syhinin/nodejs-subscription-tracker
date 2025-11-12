@@ -1,0 +1,15 @@
+meta {
+  name: getUserSubscriptions
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:5500/api/v1/subscriptions/user/{{userId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}

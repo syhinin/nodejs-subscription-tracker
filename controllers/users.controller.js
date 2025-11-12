@@ -14,9 +14,7 @@ export const getUserById = async (req, res, next) => {
     const user = await User.findById(req.params.id).select("-password");
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found" });
     }
     res.status(200).json({ success: true, data: user });
   } catch (error) {
@@ -26,7 +24,7 @@ export const getUserById = async (req, res, next) => {
 
 export const updateUserById = async (req, res, next) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.body.id, req.body, {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.status(200).json({ success: true, data: updatedUser });

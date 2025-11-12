@@ -1,0 +1,25 @@
+meta {
+  name: createSubscriptions
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:5500/api/v1/subscriptions/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "name": "Subscription name",
+    "price": 20,
+    "category": "Health",
+    "paymentMethod": "PayPal",
+    "startDate": "04.11.2025"
+  }
+}

@@ -18,6 +18,7 @@ export const rateLimiter = rateLimit({
   legacyHeaders: false,
   handler: (req, res) => {
     res.status(429).json({
+      success: false,
       error: "Too many requests",
       retryAfter: req.rateLimit.resetTime,
     });
@@ -126,6 +127,7 @@ export const sqlInjectionProtection = (req, res, next) => {
     if (source && checkValue(source)) {
       console.warn("SQL injection attempt detected:", req.ip);
       return res.status(400).json({
+        success: false,
         error: "Invalid input detected",
       });
     }
@@ -154,6 +156,7 @@ export const pathTraversalProtection = (req, res, next) => {
   if (Object.values(allParams).some(checkPath)) {
     console.warn("Path traversal attempt detected:", req.ip);
     return res.status(400).json({
+      success: false,
       error: "Invalid path detected",
     });
   }
@@ -168,6 +171,7 @@ export const requestSizeLimiter = (req, res, next) => {
 
   if (contentLength && parseInt(contentLength) > maxSize) {
     return res.status(413).json({
+      success: false,
       error: "Request payload too large",
     });
   }
@@ -240,6 +244,7 @@ export const botProtection = (req, res, next) => {
     console.warn(`Bot detected - IP: ${ip}, UA: ${userAgent}`);
 
     return res.status(403).json({
+      success: false,
       error: "Access denied",
       message: "Automated access is not permitted",
     });
@@ -266,7 +271,7 @@ export const honeypotProtection = (req, res, next) => {
 
         // Silently reject with delay to confuse bots
         return setTimeout(() => {
-          res.status(400).json({ error: "Invalid submission" });
+          res.status(400).json({ success: false, error: "Invalid submission" });
         }, 3000);
       }
     }
@@ -323,6 +328,7 @@ export const behaviorAnalysis = (req, res, next) => {
     );
 
     return res.status(429).json({
+      success: false,
       error: "Suspicious activity detected",
       message: "Please slow down your requests",
     });
@@ -363,6 +369,7 @@ export const browserFingerprintCheck = (req, res, next) => {
       )}`
     );
     return res.status(403).json({
+      success: false,
       error: "Invalid request headers",
     });
   }

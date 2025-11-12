@@ -1,0 +1,15 @@
+meta {
+  name: deleteSubscriptionById
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:5500/api/v1/subscriptions/6914d93591dc7cf8c6efe027
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
