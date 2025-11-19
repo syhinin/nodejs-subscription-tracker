@@ -1,4 +1,5 @@
 import Subscription from "../models/mongoose/subscription.model.js";
+import { workflowClient } from "../config/upstash.js";
 
 export const createSubscription = async (req, res, next) => {
   try {
@@ -7,7 +8,16 @@ export const createSubscription = async (req, res, next) => {
       userId: req.user._id,
     });
 
-    res.status(201).json({ success: true, data: subscription });
+    const { workflowRunId } = await workflowClient.trigger({
+      url: process.env.SERVER_URL + "/api/v1/workflows/subscription/reminder",
+      body: { subscriptionId: subscription.id },
+      headers: { "content-type": "application/json" },
+      retries: 0,
+    });
+
+    res
+      .status(201)
+      .json({ success: true, data: { subscription, workflowRunId } });
   } catch (error) {
     res.status(500).json({ success: false, error: "Internal server error" });
     next(error);
