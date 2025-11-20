@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap - SubTracker Docs</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span style="font-size: 1.2rem;">📝</span> SubTracker Docs
+            </a>
+            <div class="menu-toggle">☰</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="business_logic.html" class="nav-link">Business Logic</a>
+                <a href="technical.html" class="nav-link">Technical</a>
+                <a href="roadmap.html" class="nav-link active">Roadmap</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 4rem;">
+        <h1>Feature Roadmap</h1>
+        <p class="tagline">Detailed specifications for upcoming features.</p>
+
+        <div class="roadmap-list" style="margin-top: 3rem;">
+            
+            <!-- Feature 1 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">1. Real Email Integration</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Currently, reminders are only logged to the console. Users need actual notifications to take action.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Integrate <code>nodemailer</code> or SendGrid API.</li>
+                        <li>Create HTML email templates for "Upcoming Renewal" and "Payment Failed".</li>
+                        <li>Update <code>workflow.controller.js</code> to replace <code>console.log</code> with the email service.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">2. Smart Dashboard & Analytics</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Users struggle to see the "big picture" of their finances. They need to know their total monthly commitment.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Create aggregation pipeline in MongoDB to sum prices by user.</li>
+                        <li>Add endpoint <code>GET /api/v1/analytics/spend</code>.</li>
+                        <li>Return data: <code>{ totalMonthly: 120, byCategory: { Entertainment: 50, ... } }</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">3. Multi-Currency Support</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Digital nomads and international users have subscriptions in multiple currencies (USD, EUR, etc.).</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Store <code>currency</code> field in Subscription model (already done).</li>
+                        <li>Integrate a free API like ExchangeRate-API.</li>
+                        <li>Convert all values to the user's "base currency" for the dashboard total.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">4. "Cancel for Me" Concierge</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Cancellation processes are often intentionally difficult (Dark Patterns).</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Create a database of "Cancellation Instructions" for popular services.</li>
+                        <li>Add a "Cancel" button in the UI that opens a modal with specific steps or a pre-written email template.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">5. Shared / Family Subscriptions</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Families and roommates often share costs for services like Netflix or Spotify.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Add <code>sharedWith</code> array of UserIDs to the Subscription model.</li>
+                        <li>Update dashboard to show "My Share" of the cost (e.g., 50% if shared with 1 person).</li>
+                    </ul>
+                </div>
+            </div>
+
+             <!-- Feature 6 -->
+             <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">6. Free Trial Tracker</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Users often forget to cancel free trials before they are charged.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Add <code>isTrial</code> boolean to Subscription model.</li>
+                        <li>Add <code>trialEndDate</code> field.</li>
+                        <li>Create a specialized workflow that sends an urgent reminder 24 hours before the trial ends.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 7 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">7. Bank/Email Import</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Manual entry is a barrier to entry. Automation reduces friction.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Investigate Plaid API for bank transactions.</li>
+                        <li>Alternatively, use Gmail API to scan for keywords like "Receipt", "Subscription", "Invoice".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 8 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">8. Upcoming Renewals Calendar</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> A calendar view helps users visualize their cash flow throughout the month.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Implement <code>GET /upcoming-renewals</code>.</li>
+                        <li>Return subscriptions sorted by <code>renewalDate</code> asc.</li>
+                        <li>Frontend: Render a simple calendar UI highlighting payment days.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 9 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">9. User Profile Management</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> Basic account management is currently missing.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Implement <code>PUT /users/:id</code> to allow updating name and email.</li>
+                        <li>Add password reset flow (Request Reset -> Email Link -> New Password).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 10 -->
+            <div class="roadmap-item">
+                <div class="flex justify-between items-start">
+                    <h3 style="margin-top: 0;">10. Admin Panel</h3>
+                    <span class="status-badge status-planned">Planned</span>
+                </div>
+                <p><strong>Why?</strong> System administrators need visibility into platform usage and health.</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h4>Implementation Plan</h4>
+                    <ul>
+                        <li>Create a new role <code>admin</code> in User model.</li>
+                        <li>Create middleware <code>adminMiddleware</code> to protect routes.</li>
+                        <li>Build a dashboard showing Total Users, Active Subscriptions, and Error Rates.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Node.js Subscription Tracker Project.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

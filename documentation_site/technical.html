@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Docs - SubTracker Docs</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span style="font-size: 1.2rem;">📝</span> SubTracker Docs
+            </a>
+            <div class="menu-toggle">☰</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="business_logic.html" class="nav-link">Business Logic</a>
+                <a href="technical.html" class="nav-link active">Technical</a>
+                <a href="roadmap.html" class="nav-link">Roadmap</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 4rem;">
+        <h1>Technical Guide</h1>
+        <p class="tagline">Architecture, setup, and API reference for developers.</p>
+
+        <section>
+            <h2>Technology Stack</h2>
+            <div class="grid grid-3" style="margin-top: 2rem;">
+                <div class="card" style="text-align: center;">
+                    <h3>Node.js</h3>
+                    <p>Runtime Environment</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3>Express.js</h3>
+                    <p>Web Framework</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3>MongoDB</h3>
+                    <p>Database (Mongoose ODM)</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3>Upstash</h3>
+                    <p>Workflow & Queue</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3>JWT</h3>
+                    <p>Authentication</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3>Arcjet</h3>
+                    <p>Security (Planned)</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 4rem;">
+            <h2>System Workflows</h2>
+            <p>Visualizing the core logic using state diagrams.</p>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3>🔐 Authentication Flow</h3>
+                <div class="mermaid">
+                    sequenceDiagram
+                        participant User
+                        participant API
+                        participant DB
+                        
+                        User->>API: POST /sign-up (email, password)
+                        API->>DB: Check if user exists
+                        alt User exists
+                            DB-->>API: User found
+                            API-->>User: 409 Conflict
+                        else User new
+                            API->>DB: Create User (Hash password)
+                            DB-->>API: User Created
+                            API-->>User: 201 Created
+                        end
+
+                        User->>API: POST /sign-in (email, password)
+                        API->>DB: Find User
+                        DB-->>API: User Data
+                        API->>API: Verify Password
+                        alt Valid
+                            API->>API: Generate JWT
+                            API-->>User: 200 OK (Token)
+                        else Invalid
+                            API-->>User: 401 Unauthorized
+                        end
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    <em><strong>Note:</strong> "alt" stands for <strong>Alternative Fragment</strong>. It represents conditional logic (like an if/else statement) where the flow branches based on a condition (e.g., User exists vs. User new).</em>
+                </p>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3>🔔 Subscription Reminder Workflow</h3>
+                <div class="mermaid">
+                    stateDiagram-v2
+                        [*] --> CheckRenewal
+                        CheckRenewal --> Active : Subscription Active?
+                        Active --> CheckDate : Renewal Date Passed?
+                        
+                        state CheckDate {
+                            [*] --> CalculateDays
+                            CalculateDays --> 7Days : 7 Days Left
+                            CalculateDays --> 5Days : 5 Days Left
+                            CalculateDays --> 3Days : 3 Days Left
+                            CalculateDays --> 1Day : 1 Day Left
+                            
+                            7Days --> SendEmail
+                            5Days --> SendEmail
+                            3Days --> SendEmail
+                            1Day --> SendEmail
+                        }
+
+                        SendEmail --> Wait : Sleep until next reminder
+                        Wait --> CalculateDays
+                        
+                        CheckDate --> Expired : Date Passed
+                        Expired --> [*] : Update Status to Expired
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 4rem;">
+            <h2>Getting Started</h2>
+            <p>Follow these steps to set up the project locally.</p>
+            
+            <div style="margin-top: 1.5rem;">
+                <h4>1. Install Dependencies</h4>
+                <pre><code>npm install</code></pre>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h4>2. Environment Variables</h4>
+                <p>Create a <span class="inline-code">.env.development</span> file:</p>
+                <pre><code>PORT=3000
+MONGO_DB_URI=mongodb+srv://...
+JWT_SECRET=your_secret_key
+QSTASH_URL=...
+QSTASH_TOKEN=...</code></pre>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h4>3. Run Development Server</h4>
+                <pre><code>npm run dev</code></pre>
+            </div>
+        </section>
+
+        <section style="margin-top: 4rem;">
+            <h2>API Reference</h2>
+            
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3>🔐 Auth</h3>
+                <p><span class="inline-code">POST /api/v1/auth/sign-up</span> - Register new user</p>
+                <p><span class="inline-code">POST /api/v1/auth/sign-in</span> - Login user</p>
+                <p><span class="inline-code">POST /api/v1/auth/sign-out</span> - Logout user</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3>👤 Users</h3>
+                <p><span class="inline-code">GET /api/v1/users</span> - Get all users</p>
+                <p><span class="inline-code">GET /api/v1/users/:id</span> - Get user details</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3>💳 Subscriptions</h3>
+                <p><span class="inline-code">GET /api/v1/subscriptions</span> - Get all subscriptions</p>
+                <p><span class="inline-code">POST /api/v1/subscriptions</span> - Create subscription</p>
+                <p><span class="inline-code">GET /api/v1/subscriptions/user/:id</span> - Get user subscriptions</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Node.js Subscription Tracker Project.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+</body>
+</html>

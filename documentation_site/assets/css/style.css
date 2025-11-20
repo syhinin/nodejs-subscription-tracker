@@ -1,0 +1,373 @@
+/* Notion-like Light Theme Variables */
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F7F7F5; /* Notion Sidebar/Block Hover */
+  --bg-card: #FFFFFF;
+  --text-primary: #37352F;
+  --text-secondary: #787774;
+  --accent-primary: #2EAADC; /* Notion Blue-ish */
+  --border-color: #E9E9E7;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  
+  /* Notion Colors */
+  --color-gray: #9B9A97;
+  --color-brown: #64473A;
+  --color-orange: #D9730D;
+  --color-yellow: #DFAB01;
+  --color-green: #0F7B6C;
+  --color-blue: #0B6E99;
+  --color-purple: #6940A5;
+  --color-pink: #AD1A72;
+  --color-red: #E03E3E;
+
+  --bg-gray: #EBECED;
+  --bg-brown: #E9E5E3;
+  --bg-orange: #FAEBDD;
+  --bg-yellow: #FBF3DB;
+  --bg-green: #DDEDEA;
+  --bg-blue: #DDEBF1;
+  --bg-purple: #EAE4F2;
+  --bg-pink: #F4DFEB;
+  --bg-red: #FBE4E4;
+
+  --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
+  --shadow-md: 0 4px 8px rgba(15, 15, 15, 0.05);
+  --radius-md: 12px; /* More rounded */
+  --radius-lg: 16px;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+  transition: background-color 0.1s ease;
+}
+
+a:hover {
+  background-color: var(--bg-gray);
+  border-bottom-color: transparent;
+}
+
+ul {
+  list-style: disc inside;
+  padding-left: 1rem;
+}
+
+li {
+    margin-bottom: 0.25rem;
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 900px; /* Notion width is usually narrower */
+  margin: 0 auto;
+  padding: 0 2rem; /* Notion padding */
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.justify-between { justify-content: space-between; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.875rem;
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Navigation */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0.75rem 0;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+.logo:hover { background: none; }
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.nav-link:hover, .nav-link.active {
+  background-color: var(--bg-gray);
+  color: var(--text-primary);
+}
+
+/* Mobile Menu */
+.menu-toggle {
+  display: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 6px;
+}
+.menu-toggle:hover { background-color: var(--bg-gray); }
+
+/* Hero Section */
+.hero {
+  padding: 6rem 0 4rem;
+  text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+  box-shadow: 0 2px 4px rgba(46, 170, 220, 0.2);
+}
+.btn-primary:hover {
+  background-color: #2388b3; /* Darker blue */
+  border-bottom-color: transparent;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  margin-left: 0.5rem;
+}
+.btn-secondary:hover {
+  background-color: var(--bg-gray);
+  border-bottom-color: var(--border-color);
+}
+
+/* Cards / Callouts */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  background-color: var(--bg-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Colorful Accents for Cards (Random-ish distribution via nth-child logic if needed, or specific classes) */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-blue), var(--color-purple));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Code Blocks */
+pre {
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  color: #EB5757; /* Notion red for code */
+  border: 1px solid var(--border-color);
+}
+
+code {
+  font-family: var(--font-code);
+}
+
+.inline-code {
+  background-color: rgba(135, 131, 120, 0.15);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-family: var(--font-code);
+  font-size: 0.85em;
+  color: #EB5757;
+}
+
+/* Roadmap Styles */
+.roadmap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.roadmap-item {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  background-color: white;
+  transition: transform 0.2s ease;
+}
+
+.roadmap-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px; /* Pill shape */
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0; /* Removed bottom margin for flex alignment */
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.status-planned { background-color: var(--bg-blue); color: var(--color-blue); border: 1px solid rgba(11, 110, 153, 0.2); }
+.status-progress { background-color: var(--bg-yellow); color: var(--color-yellow); border: 1px solid rgba(223, 171, 1, 0.2); }
+.status-done { background-color: var(--bg-green); color: var(--color-green); border: 1px solid rgba(15, 123, 108, 0.2); }
+
+/* Footer */
+footer {
+  padding: 3rem 0;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border-color);
+  text-align: left;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-primary);
+    flex-direction: column;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero h1 { font-size: 2.5rem; }
+}

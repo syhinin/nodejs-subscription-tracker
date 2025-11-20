@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Logic - SubTracker Docs</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span style="font-size: 1.2rem;">📝</span> SubTracker Docs
+            </a>
+            <div class="menu-toggle">☰</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="business_logic.html" class="nav-link active">Business Logic</a>
+                <a href="technical.html" class="nav-link">Technical</a>
+                <a href="roadmap.html" class="nav-link">Roadmap</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 4rem;">
+        <h1>Business Logic</h1>
+        <p class="tagline">Understanding the core entities and workflows of the application.</p>
+
+        <section>
+            <h2>Core Entities</h2>
+            <div class="grid grid-2" style="margin-top: 2rem;">
+                <div class="card">
+                    <h3>👤 User</h3>
+                    <p>Represents a registered person using the application.</p>
+                    <ul style="margin-top: 1rem; color: var(--text-secondary);">
+                        <li><strong>Unique Email:</strong> Required for identification.</li>
+                        <li><strong>Password:</strong> Hashed for security (min 6 chars).</li>
+                        <li><strong>Authentication:</strong> Uses JWT tokens.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💳 Subscription</h3>
+                    <p>Represents a recurring payment service.</p>
+                    <ul style="margin-top: 1rem; color: var(--text-secondary);">
+                        <li><strong>Details:</strong> Name, Price, Currency, Frequency.</li>
+                        <li><strong>Status:</strong> Active, Canceled, Expired.</li>
+                        <li><strong>Automation:</strong> Auto-calculates renewal dates based on frequency.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 4rem;">
+            <h2>Automated Workflows</h2>
+            <div class="card" style="margin-top: 2rem;">
+                <h3>🔔 Renewal Reminders</h3>
+                <p>The system uses <strong>Upstash Workflow</strong> to reliably schedule checks and send notifications before a subscription renews.</p>
+                
+                <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div style="background-color: var(--bg-blue); color: var(--color-blue); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; min-width: 100px; text-align: center;">7 Days Before</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem;">First Reminder</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">Gentle notification that renewal is approaching.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div style="background-color: var(--bg-blue); color: var(--color-blue); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; min-width: 100px; text-align: center;">5 Days Before</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem;">Second Reminder</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">Follow-up notification.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div style="background-color: var(--bg-orange); color: var(--color-orange); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; min-width: 100px; text-align: center;">3 Days Before</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem;">Third Reminder</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">Urgent reminder to check funds or cancel.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div style="background-color: var(--bg-red); color: var(--color-red); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; min-width: 100px; text-align: center;">1 Day Before</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem;">Final Reminder</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">Last chance to take action before charge.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Node.js Subscription Tracker Project.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
