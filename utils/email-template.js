@@ -80,10 +80,10 @@ export const emailTemplates = [
     generateBody: (data) => generateEmailTemplate({ ...data, daysLeft: 5 }),
   },
   {
-    label: "2 days before reminder",
+    label: "3 days before reminder",
     generateSubject: (data) =>
-      `🚀 2 Days Left!  ${data.subscriptionName} Subscription Renewal`,
-    generateBody: (data) => generateEmailTemplate({ ...data, daysLeft: 2 }),
+      `🚀 3 Days Left! ${data.subscriptionName} Subscription Renewal`,
+    generateBody: (data) => generateEmailTemplate({ ...data, daysLeft: 3 }),
   },
   {
     label: "1 days before reminder",

@@ -1,5 +1,6 @@
 import { serve } from "@upstash/workflow/express";
 import dayjs from "dayjs";
+import { workflowClient } from "../config/upstash.js";
 
 import Subscription from "../models/mongoose/subscription.model.js";
 import { sendReminderEmail } from "../utils/email-send.js";
@@ -34,8 +35,46 @@ export const sendReminders = serve(async (context) => {
       );
     }
 
-    if(dayjs().isSame(reminderDate, "day"))
-    await triggerReminderEmail(context, `${daysBefore} days before reminder`, subscription);
+    if (dayjs().isSame(reminderDate, "day")) {
+      await triggerReminderEmail(
+        context,
+        `${daysBefore} days before reminder`,
+        subscription
+      );
+    }
+  }
+
+  if (renewalDate.isAfter(dayjs())) {
+    await sleepUntilReminder(context, "Renewal Date", renewalDate);
+  }
+
+  if (dayjs().isSame(renewalDate, "day")) {
+    await context.run("renew-subscription", async () => {
+      let nextRenewalDate = dayjs(renewalDate);
+      switch (subscription.frequency) {
+        case "daily":
+          nextRenewalDate = nextRenewalDate.add(1, "day");
+          break;
+        case "weekly":
+          nextRenewalDate = nextRenewalDate.add(1, "week");
+          break;
+        case "monthly":
+          nextRenewalDate = nextRenewalDate.add(1, "month");
+          break;
+        case "yearly":
+          nextRenewalDate = nextRenewalDate.add(1, "year");
+          break;
+      }
+
+      await Subscription.findByIdAndUpdate(subscriptionId, {
+        renewalDate: nextRenewalDate.toDate(),
+      });
+
+      await workflowClient.trigger({
+        url: process.env.SERVER_URL + "/api/v1/workflows/subscription/reminder",
+        body: { subscriptionId },
+      });
+    });
   }
 });
 
