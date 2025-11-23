@@ -34,6 +34,7 @@ const subscriptionSchema = new mongoose.Schema(
         "Finance",
         "Education",
         "Health",
+        "Hostings",
         "Other",
       ],
       required: [true, "Subscription category is required"],
